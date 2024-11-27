@@ -1,0 +1,72 @@
+from tkinter import Tk, Label, Entry, Button, StringVar, DoubleVar, messagebox, ttk
+
+
+def calculate_bill():
+    try:
+        last_meter = float(last_meter_var.get())
+        current_meter = float(current_meter_var.get())
+        elect_units = float(elect_units_var.get())
+        water_units = float(water_units_var.get())
+        room_charge = 3000 
+
+        if current_meter < last_meter:
+            messagebox.showerror("Error", "Current Meter ต้องมากกว่า Last Meter")
+            return
+
+
+        elect_bill = elect_units * 6
+        water_bill = water_units * 5
+        total_bill = elect_bill + water_bill + room_charge
+
+
+        result_var.set(f"ElectBill: {elect_bill:.2f} บาท\n"
+                       f"WaterBill: {water_bill:.2f} บาท\n"
+                       f"RoomCharge: {room_charge:.2f} บาท\n"
+                       f"TotalBill: {total_bill:.2f} บาท")
+        progress_bar["value"] = 50  # ให้ ProgressBar วิ่ง 50%
+    except ValueError:
+        messagebox.showerror("Error", "กรุณากรอกข้อมูลให้ถูกต้อง")
+
+
+def reset_fields():
+    last_meter_var.set("")
+    current_meter_var.set("")
+    elect_units_var.set("")
+    water_units_var.set("")
+    result_var.set("")
+    progress_bar["value"] = 0
+
+
+root = Tk()
+root.title("โปรแกรมคำนวณบิล")
+
+
+last_meter_var = StringVar()
+current_meter_var = StringVar()
+elect_units_var = StringVar()
+water_units_var = StringVar()
+result_var = StringVar()
+
+
+Label(root, text="Last Meter:").grid(row=0, column=0, padx=5, pady=5)
+Entry(root, textvariable=last_meter_var).grid(row=0, column=1, padx=5, pady=5)
+
+Label(root, text="Current Meter:").grid(row=1, column=0, padx=5, pady=5)
+Entry(root, textvariable=current_meter_var).grid(row=1, column=1, padx=5, pady=5)
+
+Label(root, text="Elect Units:").grid(row=2, column=0, padx=5, pady=5)
+Entry(root, textvariable=elect_units_var).grid(row=2, column=1, padx=5, pady=5)
+
+Label(root, text="Water Units:").grid(row=3, column=0, padx=5, pady=5)
+Entry(root, textvariable=water_units_var).grid(row=3, column=1, padx=5, pady=5)
+
+Button(root, text="Calculate", command=calculate_bill).grid(row=4, column=0, padx=5, pady=5)
+Button(root, text="Reset", command=reset_fields).grid(row=4, column=1, padx=5, pady=5)
+
+Label(root, text="Result:").grid(row=5, column=0, padx=5, pady=5)
+Label(root, textvariable=result_var, justify="left").grid(row=5, column=1, padx=5, pady=5)
+
+progress_bar = ttk.Progressbar(root, orient="horizontal", length=200, mode="determinate")
+progress_bar.grid(row=6, column=0, columnspan=2, pady=10)
+
+root.mainloop()
