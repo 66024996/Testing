@@ -1,7 +1,7 @@
 import unittest
 
 
-def calculate_bill(last_meter, current_meter, elect_units, water_units, room_charge=2000):
+def calculate_bill(last_meter, current_meter, elect_units, water_units, room_charge=3000):
     if current_meter < last_meter:
         raise ValueError("Current Meter ต้องมากกว่า Last Meter")
     
@@ -29,8 +29,8 @@ class TestCalculateBill(unittest.TestCase):
         )
         self.assertEqual(result["ElectBill"], 50 * 6)
         self.assertEqual(result["WaterBill"], 20 * 5)
-        self.assertEqual(result["RoomCharge"], 2000)
-        self.assertEqual(result["TotalBill"], (50 * 6) + (20 * 5) + 2000)
+        self.assertEqual(result["RoomCharge"], 3000)
+        self.assertEqual(result["TotalBill"], (50 * 6) + (20 * 5) + 3000)
 
     def test_error_case_current_less_than_last(self):
         """ทดสอบกรณี Current Meter น้อยกว่า Last Meter"""
@@ -53,7 +53,7 @@ class TestCalculateBill(unittest.TestCase):
         )
         self.assertEqual(result["ElectBill"], 0)
         self.assertEqual(result["WaterBill"], 0)
-        self.assertEqual(result["TotalBill"], 2000)
+        self.assertEqual(result["TotalBill"], 3000)
 
     def test_large_values(self):
         """ทดสอบกรณีจำนวนหน่วยน้ำและไฟฟ้ามีค่ามาก"""
@@ -65,7 +65,7 @@ class TestCalculateBill(unittest.TestCase):
         )
         self.assertEqual(result["ElectBill"], 1000 * 6)
         self.assertEqual(result["WaterBill"], 500 * 5)
-        self.assertEqual(result["TotalBill"], (1000 * 6) + (500 * 5) + 2000)
+        self.assertEqual(result["TotalBill"], (1000 * 6) + (500 * 5) + 3000)
 
 if __name__ == '__main__':
     unittest.main()
