@@ -25,7 +25,7 @@ def calculate_bill():
                        f"TotalBill: {total_bill:.2f} บาท")
         progress_bar["value"] = 50  # ให้ ProgressBar วิ่ง 50%
     except ValueError:
-        messagebox.showerror("Error", "กรุณากรอกข้อมูลให้ถูกต้อง")
+        messagebox.showerror("Error", "กรุณากรอกข้อมูลให้ครบถ้วนและถูกต้อง")
 
 
 def reset_fields():
