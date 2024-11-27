@@ -1,0 +1,71 @@
+import unittest
+
+
+def calculate_bill(last_meter, current_meter, elect_units, water_units, room_charge=2000):
+    if current_meter < last_meter:
+        raise ValueError("Current Meter ต้องมากกว่า Last Meter")
+    
+    elect_bill = elect_units * 6
+    water_bill = water_units * 5
+    total_bill = elect_bill + water_bill + room_charge
+
+    return {
+        "ElectBill": elect_bill,
+        "WaterBill": water_bill,
+        "RoomCharge": room_charge,
+        "TotalBill": total_bill
+    }
+
+
+class TestCalculateBill(unittest.TestCase):
+    
+    def test_normal_case(self):
+        """ทดสอบกรณีปกติ"""
+        result = calculate_bill(
+            last_meter=100,
+            current_meter=150,
+            elect_units=50,
+            water_units=20
+        )
+        self.assertEqual(result["ElectBill"], 50 * 6)
+        self.assertEqual(result["WaterBill"], 20 * 5)
+        self.assertEqual(result["RoomCharge"], 2000)
+        self.assertEqual(result["TotalBill"], (50 * 6) + (20 * 5) + 2000)
+
+    def test_error_case_current_less_than_last(self):
+        """ทดสอบกรณี Current Meter น้อยกว่า Last Meter"""
+        with self.assertRaises(ValueError) as context:
+            calculate_bill(
+                last_meter=200,
+                current_meter=150,
+                elect_units=40,
+                water_units=10
+            )
+        self.assertEqual(str(context.exception), "Current Meter ต้องมากกว่า Last Meter")
+
+    def test_zero_units(self):
+        """ทดสอบกรณีจำนวนหน่วยน้ำและไฟฟ้าเป็น 0"""
+        result = calculate_bill(
+            last_meter=100,
+            current_meter=150,
+            elect_units=0,
+            water_units=0
+        )
+        self.assertEqual(result["ElectBill"], 0)
+        self.assertEqual(result["WaterBill"], 0)
+        self.assertEqual(result["TotalBill"], 2000)
+
+    def test_large_values(self):
+        """ทดสอบกรณีจำนวนหน่วยน้ำและไฟฟ้ามีค่ามาก"""
+        result = calculate_bill(
+            last_meter=100,
+            current_meter=1000,
+            elect_units=1000,
+            water_units=500
+        )
+        self.assertEqual(result["ElectBill"], 1000 * 6)
+        self.assertEqual(result["WaterBill"], 500 * 5)
+        self.assertEqual(result["TotalBill"], (1000 * 6) + (500 * 5) + 2000)
+
+if __name__ == '__main__':
+    unittest.main()
