@@ -23,7 +23,7 @@ def calculate_bill():
                        f"WaterBill: {water_bill:.2f} บาท\n"
                        f"RoomCharge: {room_charge:.2f} บาท\n"
                        f"TotalBill: {total_bill:.2f} บาท")
-        progress_bar["value"] = 50  # ให้ ProgressBar วิ่ง 50%
+        progress_bar["value"] = 50
     except ValueError:
         messagebox.showerror("Error", "กรุณากรอกข้อมูลให้ครบถ้วนและถูกต้อง")
 
